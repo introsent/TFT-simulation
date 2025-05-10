@@ -15,13 +15,27 @@ public struct UnitPrefabMapping
     public UnitType type;
     public GameObject prefab;
 }
+
 public class SpawnManager : MonoBehaviour
 {
+    public static SpawnManager Instance { get; private set; }
+
+    // Existing variables
     public List<UnitPrefabMapping> _unitPrefabs = new List<UnitPrefabMapping>();
     private Dictionary<UnitType, GameObject> _prefabMap;
+    public GameObject LastClickedUnit { get; private set; }
 
     private void Awake()
     {
+        // Singleton setup
+        if (Instance != null && Instance != this)
+        {
+            Destroy(this);
+            return;
+        }
+        Instance = this;
+
+        // Existing initialization
         _prefabMap = new Dictionary<UnitType, GameObject>();
         foreach (var mapping in _unitPrefabs)
         {
@@ -31,14 +45,10 @@ public class SpawnManager : MonoBehaviour
             }
         }
     }
-    void Start()
-    {
-        
-    }
 
-    // Update is called once per frame
-    void Update()
+    // Keep existing methods as instance methods
+    public void SetLastClickedUnit(UnitType unitType)
     {
-        
+        LastClickedUnit = _prefabMap[unitType];
     }
 }

@@ -13,28 +13,21 @@ namespace UI
             var root = _uiDocument.rootVisualElement;
             root.RegisterCallback<ClickEvent>(OnButtonClicked);
         }
-
-        private void OnDisable()
-        {
-            var root = _uiDocument.rootVisualElement;
-            root.UnregisterCallback<ClickEvent>(OnButtonClicked);
-        }
     
         private void OnButtonClicked(ClickEvent evt)
         {
-            // Check which button was clicked
             if (evt.target is Button button)
             {
                 switch (button.name)
                 {
                     case "TankButton":
-                        Debug.Log("Button tank clicked");
+                        SpawnManager.Instance.SetLastClickedUnit(UnitType.Tank);
                         break;
                     case "SniperButton":
-                        Debug.Log("Button sniper clicked");
+                        SpawnManager.Instance.SetLastClickedUnit(UnitType.Sniper);
                         break;
                     case "MeleeButton":
-                        Debug.Log("Button button clicked");
+                        SpawnManager.Instance.SetLastClickedUnit(UnitType.Melee);
                         break;
                 }
             }
