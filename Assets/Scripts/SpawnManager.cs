@@ -51,4 +51,27 @@ public class SpawnManager : MonoBehaviour
     {
         LastClickedUnit = _prefabMap[unitType];
     }
+    
+    
+    public void TrySpawnUnit(Vector3 position)
+    {
+        if(LastClickedUnit == null) return;
+
+        if(Physics.Raycast(position + Vector3.up * 10f, Vector3.down, out RaycastHit hit))
+        {
+            if(hit.collider.TryGetComponent<Tile>(out Tile tile))
+            {
+                if(tile.IsBlueTeamTile && !tile.IsOccupied)
+                {
+                    SpawnUnit(tile.transform.position);
+                    tile.IsOccupied = true;
+                }
+            }
+        }
+    }
+
+    private void SpawnUnit(Vector3 position)
+    {
+        Instantiate(LastClickedUnit, position, Quaternion.identity);
+    }
 }
