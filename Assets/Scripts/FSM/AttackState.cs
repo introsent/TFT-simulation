@@ -36,7 +36,7 @@ namespace FSM
 
         public override UnitState CheckTransitions()
         {
-            throw new System.NotImplementedException();
+            return null; 
         }
 
         public void SetTarget(Transform target) => _target = target;

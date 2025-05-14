@@ -138,11 +138,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 55fe31b3b421a0e46825a679e69c9d21, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  Side: 0
   Type: 1
   Health: 2
   Damage: 2
   Speed: 2
   Range: 1
+  DetectionRange: 5
   AttackPriority: 1
 --- !u!1 &1055265541920024
 GameObject:

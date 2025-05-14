@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace FSM
@@ -59,7 +60,15 @@ namespace FSM
 
         private bool EnemyInSight(out GameObject enemyFound)
         {
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            List<GameObject> enemies = new List<GameObject>();
+            Unit[] allUnits = Object.FindObjectsByType<Unit>(FindObjectsSortMode.None);
+            foreach (Unit unit in allUnits)
+            {
+                if (unit.Side != _unit.Side)
+                {
+                    enemies.Add(unit.gameObject);
+                }
+            }
             foreach (var enemy in enemies)
             {
                 if (Vector3.Distance(_unit.transform.position, enemy.transform.position) <= _unit.DetectionRange)

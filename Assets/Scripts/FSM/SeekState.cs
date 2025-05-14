@@ -1,3 +1,4 @@
+using System.Collections.Generic;
 using UnityEngine;
 
 namespace FSM
@@ -43,7 +44,16 @@ namespace FSM
     private void FindTarget()
     {
         // Modified to find targets regardless of current distance
-        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        List<GameObject> enemies = new List<GameObject>();
+        Unit[] allUnits = Object.FindObjectsByType<Unit>(FindObjectsSortMode.None);
+        foreach (Unit unit in allUnits)
+        {
+            if (unit.Side != _unit.Side)
+            {
+                enemies.Add(unit.gameObject);
+            }
+        }
+        
         GameObject bestTarget = null;
         float closestDistance = Mathf.Infinity;
 

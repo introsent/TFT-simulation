@@ -8,8 +8,16 @@ public enum UnitType
     Sniper
 }
 
+public enum Faction
+{
+    Player,
+    Enemy
+}
+
 public class Unit : MonoBehaviour
 {
+    public Faction Side;
+    
     public UnitType Type;
     public int Health;
     public int Damage;
@@ -17,7 +25,7 @@ public class Unit : MonoBehaviour
     public int Range;
     public float DetectionRange = 5f;
     public int AttackPriority; // 0: Nearest, 1: Melee, 2: Tank
-
+    
     private UnitFSM _fsm;
     public UnitFSM FSM => _fsm;
     private void Start()

@@ -1,4 +1,5 @@
 using System.Collections.Generic;
+using System.Runtime.InteropServices.ComTypes;
 using UI;
 using UnityEngine;
 
@@ -48,6 +49,18 @@ public class GameManager : MonoBehaviour
     {
         hasStarted = true;
         UIManager.Instance.HideUI();
+        Unit[] allUnits = Object.FindObjectsByType<Unit>(FindObjectsSortMode.None);
+        foreach (Unit unit in allUnits)
+        {
+            if (unit.gameObject.CompareTag("Enemy"))
+            {
+                unit.Side = Faction.Enemy;
+            }
+            else
+            {
+                unit.Side = Faction.Player;
+            }
+        }
     }
 
     public bool HasStarted()
