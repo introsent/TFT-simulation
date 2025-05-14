@@ -2,12 +2,6 @@ using System.Collections.Generic;
 using Unity.Properties;
 using UnityEngine;
 
-public enum UnitType
-{
-    Tank,
-    Melee,
-    Sniper
-}
 
 [System.Serializable]
 public struct UnitPrefabMapping
