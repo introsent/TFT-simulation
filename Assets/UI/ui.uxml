@@ -1,5 +1,6 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements">
+<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="False">
     <ui:Button text="Tank" parse-escape-sequences="true" selectable="false" enabled="true" name="TankButton" style="bottom: 0; position: absolute; left: 40%; white-space: pre; right: 0; top: auto; flex-shrink: 0; width: 50px; background-color: rgb(0, 25, 255); color: rgb(255, 255, 255); -unity-font-style: bold;" />
     <ui:Button text="Sniper" name="SniperButton" style="position: absolute; bottom: 0; left: 50%; flex-direction: column; right: 0; width: 60px; color: rgb(255, 255, 255); background-color: rgb(0, 82, 1); -unity-font-style: bold;" />
     <ui:Button text="Melee" name="MeleeButton" style="background-color: rgb(108, 0, 0); color: rgb(255, 255, 255); bottom: 0; right: 0; left: 60%; position: absolute; align-self: auto; align-items: stretch; width: 60px;" />
+    <ui:Button text=" Run" name="RunButton" icon-image="project://database/Assets/UI/play.png?fileID=2800000&amp;guid=e9dc32c0fd0203641ac3103b9a0ace6f&amp;type=3#play" style="height: 35px; width: 50px; font-size: 10px; left: 50%;" />
 </ui:UXML>

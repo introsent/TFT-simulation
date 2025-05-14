@@ -74,4 +74,26 @@ public class SpawnManager : MonoBehaviour
     {
         Instantiate(LastClickedUnit, position, Quaternion.identity);
     }
+    
+    public void SpawnAIUnits(List<GameManager.UnitPosition> unitPositions)
+    {
+        // Spawn AI units on specified grid positions
+        Tile[,] grid = GridManager.Instance.GetGrid();
+        int playerHeight = GridManager.Instance._playerHeight;
+
+        foreach (GameManager.UnitPosition unitPos in unitPositions)
+        {
+            Vector2Int gridPos = unitPos.position;
+            if (gridPos.x >= 0 && gridPos.x < grid.GetLength(0) && gridPos.y >= (playerHeight - 1) && gridPos.y < grid.GetLength(1))
+            {
+                Tile tile = grid[gridPos.x, gridPos.y];
+                if (!tile.IsOccupied)
+                {
+                    GameObject unitPrefab = _prefabMap[unitPos.type];
+                    Instantiate(unitPrefab, tile.transform.position, Quaternion.Euler(0, 180, 0));
+                    tile.IsOccupied = true;
+                }
+            }
+        }
+    }
 }

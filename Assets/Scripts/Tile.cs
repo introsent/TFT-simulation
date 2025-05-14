@@ -22,14 +22,13 @@ public class Tile : MonoBehaviour
     public void Initialize(bool isBlueTeam)
     {
         IsBlueTeamTile = isBlueTeam;
-        _originalMaterial = isBlueTeam ? _blueTileMaterial : 
-            _redTileMaterial;
+        _originalMaterial = isBlueTeam ? _blueTileMaterial : _redTileMaterial;
         _meshRenderer.material = _originalMaterial;
     }
 
     private void OnMouseEnter()
     {
-        if(!IsOccupied && IsBlueTeamTile) 
+        if (!IsOccupied && IsBlueTeamTile)
             _meshRenderer.material = _hoverMaterial;
     }
 
