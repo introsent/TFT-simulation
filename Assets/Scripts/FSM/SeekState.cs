@@ -8,9 +8,17 @@ namespace FSM
 
     public SeekState(Unit unit) : base(unit) { }
 
+    public SeekState(Unit unit, Transform target) : base(unit)
+    {
+        _target = target;
+    }
+
     public override void Execute()
     {
-        FindTarget();
+        if (_target == null)
+        {
+            FindTarget();
+        }
         if (_target != null)
         {
             MoveTowardsTarget();
