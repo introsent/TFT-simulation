@@ -15,10 +15,11 @@ public class Unit : MonoBehaviour
     public int Damage;
     public float Speed;
     public int Range;
+    public float DetectionRange = 5f;
     public int AttackPriority; // 0: Nearest, 1: Melee, 2: Tank
 
     private UnitFSM _fsm;
-
+    public UnitFSM FSM => _fsm;
     private void Start()
     {
         // Initialize unit attributes based on type
@@ -26,9 +27,16 @@ public class Unit : MonoBehaviour
         _fsm = new UnitFSM(this);
     }
 
+    public void TransitionToState(UnitState state)
+    {
+        _fsm.TransitionToState(state);
+    }
     private void Update()
     {
-        _fsm.Update();
+        if (GameManager.Instance.HasStarted())
+        {
+            _fsm.Update();
+        }
     }
 
     private void InitializeAttributes()

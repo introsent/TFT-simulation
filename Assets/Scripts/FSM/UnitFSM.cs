@@ -19,6 +19,16 @@ namespace FSM
             if (_currentState != null)
             {
                 _currentState.Execute();
+                CheckStateTransition();
+            }
+        }
+
+        private void CheckStateTransition()
+        {
+            var nextState = _currentState.CheckTransitions();
+            if (nextState != null)
+            {
+                TransitionToState(nextState);
             }
         }
 

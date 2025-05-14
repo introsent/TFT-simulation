@@ -84,7 +84,8 @@ public class SpawnManager : MonoBehaviour
                 if (!tile.IsOccupied)
                 {
                     GameObject unitPrefab = _prefabMap[unitPos.type];
-                    Instantiate(unitPrefab, tile.transform.position, Quaternion.Euler(0, 180, 0));
+                    GameObject unit = Instantiate(unitPrefab, tile.transform.position, Quaternion.Euler(0, 180, 0));
+                    unit.tag = "Enemy";
                     tile.IsOccupied = true;
                 }
             }

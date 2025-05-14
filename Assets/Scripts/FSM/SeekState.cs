@@ -3,62 +3,81 @@ using UnityEngine;
 namespace FSM
 {
     public class SeekState : UnitState
+{
+    private Transform _target;
+
+    public SeekState(Unit unit) : base(unit) { }
+
+    public override void Execute()
     {
-        private Transform _target;
-
-        public SeekState(Unit unit) : base(unit) { }
-
-        public override void OnEnter()
+        FindTarget();
+        if (_target != null)
         {
-            // Initialize seek behavior
-        }
-
-        public override void Execute()
-        {
-            // Implement seek behavior
-            FindTarget();
-            if (_target != null)
+            MoveTowardsTarget();
+            if (IsTargetInRange())
             {
-                MoveTowardsTarget();
+                AttackState attackState = new AttackState(_unit);
+                attackState.SetTarget(_target);
+                _unit.TransitionToState(attackState);
             }
         }
-
-        public override void OnExit()
+        else
         {
-            // Clean up seek behavior
-        }
-
-        private void FindTarget()
-        {
-            // Find the nearest target based on attack priority
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-            float closestDistance = Mathf.Infinity;
-            GameObject closestEnemy = null;
-
-            foreach (GameObject enemy in enemies)
-            {
-                Unit enemyUnit = enemy.GetComponent<Unit>();
-                if (enemyUnit != null)
-                {
-                    float distance = Vector3.Distance(_unit.transform.position, enemy.transform.position);
-                    if (distance < closestDistance && distance <= _unit.Range)
-                    {
-                        if (_unit.AttackPriority == 0 || (_unit.AttackPriority == 1 && enemyUnit.Type == UnitType.Tank) || (_unit.AttackPriority == 2 && enemyUnit.Type == UnitType.Melee))
-                        {
-                            closestDistance = distance;
-                            closestEnemy = enemy;
-                        }
-                    }
-                }
-            }
-
-            _target = closestEnemy != null ? closestEnemy.transform : null;
-        }
-
-        private void MoveTowardsTarget()
-        {
-            // Move towards the target
-            _unit.transform.position = Vector3.MoveTowards(_unit.transform.position, _target.position, _unit.Speed * Time.deltaTime);
+            _unit.FSM.TransitionToState(new PatrolState(_unit));
         }
     }
+
+    public override UnitState CheckTransitions()
+    {
+        return null;
+    }
+
+    private void FindTarget()
+    {
+        // Modified to find targets regardless of current distance
+        GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+        GameObject bestTarget = null;
+        float closestDistance = Mathf.Infinity;
+
+        foreach (GameObject enemy in enemies)
+        {
+            Unit enemyUnit = enemy.GetComponent<Unit>();
+            if (enemyUnit == null) continue;
+
+            float distance = Vector3.Distance(_unit.transform.position, enemy.transform.position);
+            if (IsPriorityTarget(enemyUnit) && distance < closestDistance)
+            {
+                closestDistance = distance;
+                bestTarget = enemy;
+            }
+        }
+
+        _target = bestTarget?.transform;
+    }
+
+    private bool IsPriorityTarget(Unit enemy)
+    {
+        return _unit.AttackPriority switch
+        {
+            0 => true, // Nearest target
+            1 => enemy.Type == UnitType.Tank,
+            2 => enemy.Type == UnitType.Melee,
+            _ => false
+        };
+    }
+
+    private void MoveTowardsTarget()
+    {
+        _unit.transform.position = Vector3.MoveTowards(
+            _unit.transform.position,
+            _target.position,
+            _unit.Speed * Time.deltaTime
+        );
+    }
+
+    private bool IsTargetInRange()
+    {
+        return Vector3.Distance(_unit.transform.position, _target.position) <= _unit.Range;
+    }
+}
 }

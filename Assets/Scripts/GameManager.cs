@@ -49,4 +49,9 @@ public class GameManager : MonoBehaviour
         hasStarted = true;
         UIManager.Instance.HideUI();
     }
+
+    public bool HasStarted()
+    {
+        return hasStarted;
+    }
 }

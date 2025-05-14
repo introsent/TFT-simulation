@@ -17,6 +17,11 @@ namespace FSM
             Object.Destroy(_unit.gameObject);
         }
 
+        public override UnitState CheckTransitions()
+        {
+            return null; 
+        }
+
         public override void OnExit()
         {
             // Clean up die behavior

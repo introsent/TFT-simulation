@@ -12,4 +12,5 @@ public abstract class UnitState
     public virtual void OnEnter() { }
     public virtual void OnExit() { }
     public abstract void Execute();
+    public abstract UnitState CheckTransitions();
 }

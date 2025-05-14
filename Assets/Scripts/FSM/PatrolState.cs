@@ -4,23 +4,40 @@ namespace FSM
 {
     public class PatrolState : UnitState
     {
-        public PatrolState(Unit unit) : base(unit) { }
+        private Vector3 _centerPosition;
 
-        public override void OnEnter()
+        public PatrolState(Unit unit) : base(unit) 
         {
-            // Initialize patrol behavior
+            // Define the center of the map (adjust based on your grid setup)
+            _centerPosition = new Vector3(5, 0, 6); // Example center for a 4-column grid
         }
 
         public override void Execute()
         {
-            // Implement patrol behavior
-            Vector3 randomDirection = new Vector3(Random.Range(-1f, 1f), 0, Random.Range(-1f, 1f)).normalized;
-            _unit.transform.position += randomDirection * _unit.Speed * Time.deltaTime;
+            Vector3 direction = (_centerPosition - _unit.transform.position).normalized;
+            _unit.transform.position += direction * _unit.Speed * Time.deltaTime;
         }
 
-        public override void OnExit()
+        public override UnitState CheckTransitions()
         {
-            // Clean up patrol behavior
+            if (EnemyInSight())
+            {
+                return new SeekState(_unit);
+            }
+            return null;
+        }
+
+        private bool EnemyInSight()
+        {
+            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
+            foreach (var enemy in enemies)
+            {
+                if (Vector3.Distance(_unit.transform.position, enemy.transform.position) <= _unit.DetectionRange)
+                {
+                    return true;
+                }
+            }
+            return false;
         }
     }
 }

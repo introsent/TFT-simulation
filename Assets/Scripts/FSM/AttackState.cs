@@ -5,31 +5,40 @@ namespace FSM
     public class AttackState : UnitState
     {
         private Transform _target;
+        private float _attackCooldown;
+        private float _lastAttackTime;
 
-        public AttackState(Unit unit) : base(unit) { }
-
-        public override void OnEnter()
+        public AttackState(Unit unit) : base(unit) 
         {
-            // Initialize attack behavior
+            _attackCooldown = 1.5f; // Adjust based on unit type
         }
 
         public override void Execute()
         {
-            // Implement attack behavior
-            if (_target != null && Vector3.Distance(_unit.transform.position, _target.position) <= _unit.Range)
+            if (_target == null || _target.GetComponent<Unit>().Health <= 0)
+            {
+                _unit.FSM.TransitionToState(new SeekState(_unit));
+                return;
+            }
+
+            if (Vector3.Distance(_unit.transform.position, _target.position) > _unit.Range)
+            {
+                _unit.FSM.TransitionToState(new SeekState(_unit));
+                return;
+            }
+
+            if (Time.time - _lastAttackTime >= _attackCooldown)
             {
                 _target.GetComponent<Unit>().TakeDamage(_unit.Damage);
+                _lastAttackTime = Time.time;
             }
         }
 
-        public override void OnExit()
+        public override UnitState CheckTransitions()
         {
-            // Clean up attack behavior
+            throw new System.NotImplementedException();
         }
 
-        public void SetTarget(Transform target)
-        {
-            _target = target;
-        }
+        public void SetTarget(Transform target) => _target = target;
     }
 }
