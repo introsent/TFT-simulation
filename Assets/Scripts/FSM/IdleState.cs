@@ -1,3 +1,4 @@
+using UI;
 using UnityEngine;
 
 namespace FSM
@@ -11,6 +12,7 @@ namespace FSM
         public override void OnEnter()
         {
             _unit.GetComponent<UnitAnimator>().SetIdleState();
+            UIManager.Instance.ShowUI();
         }
 
         public override void Execute()

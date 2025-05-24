@@ -145,12 +145,13 @@ MonoBehaviour:
   Side: 0
   Type: 1
   Health: 6
-  Damage: 2
+  Damage: 1
   Speed: 4
   Range: 2
   DetectionRange: 5
   AttackPriority: 1
   RotationSpeed: 5
+  AttackCooldown: 2
   _healthBar: {fileID: 2303029525872028263}
   utilityConfig: {fileID: 11400000, guid: defdf4920c860894db88d3779f44ecc4, type: 2}
   preferredTargetType: 0

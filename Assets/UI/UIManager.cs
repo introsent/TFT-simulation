@@ -42,6 +42,12 @@ namespace UI
                     case "RunButton":
                         GameManager.Instance.Run();
                         break;
+                    case "NextButton":
+                        GameManager.Instance.NextLevel();
+                        break;
+                    case "PreviousButton":
+                        GameManager.Instance.PrevLevel();
+                        break;
                 }
             }
         }

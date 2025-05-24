@@ -10,7 +10,7 @@ namespace FSM
 
         public AttackState(Unit unit) : base(unit) 
         {
-            _attackCooldown = 2.5f; // Adjust based on unit type
+            _attackCooldown = _unit.AttackCooldown; // Adjust based on unit type
         }
         
         public override void OnEnter()

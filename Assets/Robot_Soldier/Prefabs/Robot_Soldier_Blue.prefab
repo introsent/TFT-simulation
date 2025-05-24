@@ -2863,6 +2863,7 @@ MonoBehaviour:
   DetectionRange: 5
   AttackPriority: 0
   RotationSpeed: 5
+  AttackCooldown: 4
   _healthBar: {fileID: 2584331774659316426}
   utilityConfig: {fileID: 11400000, guid: 7cee2829f8ce2034fab509ce96e42a37, type: 2}
   preferredTargetType: 0
