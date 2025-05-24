@@ -29,6 +29,8 @@ public class Unit : MonoBehaviour
     private UnitFSM _fsm;
     public UnitFSM FSM => _fsm;
     
+    [SerializeField] private HealthBar _healthBar;
+    
     [Header("Utility System")]
     public UtilityConfig utilityConfig;
     public UnitType preferredTargetType;
@@ -81,16 +83,21 @@ public class Unit : MonoBehaviour
         }
         
         maxHealth = Health;
+        _healthBar.UpdateHealth(maxHealth, maxHealth); 
     }
     
     public float HealthPercentage => Health / maxHealth;
     public void TakeDamage(int damage)
     {
         Health -= damage;
+        _healthBar.UpdateHealth(Health, maxHealth);
+        
         if (Health <= 0)
         {
+            _healthBar.Hide();
             _fsm.TransitionToState(new DieState(this));
         }
+        
     }
 }
 
