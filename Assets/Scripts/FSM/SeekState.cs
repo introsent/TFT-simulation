@@ -14,6 +14,12 @@ namespace FSM
     {
         _target = target;
     }
+    
+    public override void OnEnter()
+    {
+        // Trigger move animation when entering this state
+        _unit.GetComponent<UnitAnimator>().TriggerMove();
+    }
 
     public override void Execute()
     {
@@ -161,6 +167,7 @@ namespace FSM
 
     private void MoveTowardsTarget()
     {
+
         _unit.transform.position = Vector3.MoveTowards(
             _unit.transform.position,
             _target.position,

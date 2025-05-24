@@ -10,9 +10,19 @@ namespace FSM
 
         public AttackState(Unit unit) : base(unit) 
         {
-            _attackCooldown = 1.5f; // Adjust based on unit type
+            _attackCooldown = 2.5f; // Adjust based on unit type
+        }
+        
+        public override void OnEnter()
+        {
+            // Trigger move animation when entering this state
+            _unit.GetComponent<UnitAnimator>().TriggerAttack();
         }
 
+        public override void OnExit()
+        {
+            _unit.GetComponent<UnitAnimator>().TriggerBackToWalking();
+        }
         public override void Execute()
         {
             if (_target == null || _target.GetComponent<Unit>().Health <= 0)

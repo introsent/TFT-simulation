@@ -898,6 +898,7 @@ GameObject:
   - component: {fileID: 4645310196610904}
   - component: {fileID: 95067410858379344}
   - component: {fileID: 7529767767371090992}
+  - component: {fileID: 7617535348075597740}
   m_Layer: 0
   m_Name: Robot_Soldier_Green
   m_TagString: Untagged
@@ -939,7 +940,7 @@ Animator:
   m_GameObject: {fileID: 1414035686149406}
   m_Enabled: 1
   m_Avatar: {fileID: 9000000, guid: 535511bb156e7f54f83f305d96a1c4ce, type: 3}
-  m_Controller: {fileID: 9100000, guid: ff552a8ed4661db42b001ce342baa531, type: 2}
+  m_Controller: {fileID: 22100000, guid: ec91d554704acb744b02f9f3b006570f, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
   m_ApplyRootMotion: 1
@@ -975,6 +976,18 @@ MonoBehaviour:
   utilityConfig: {fileID: 11400000, guid: 4468e5d924590fe42b8571c5f08f5253, type: 2}
   preferredTargetType: 1
   maxHealth: 0
+--- !u!114 &7617535348075597740
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1414035686149406}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c041bbfc98cd61347b69256cbac43c64, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1417747815958528
 GameObject:
   m_ObjectHideFlags: 0

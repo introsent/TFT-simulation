@@ -13,6 +13,12 @@ namespace FSM
         {
             _centerPosition = new Vector3(5, 0, 6); // Adjust to match your map center
         }
+        
+        public override void OnEnter()
+        {
+            // Trigger move animation when entering this state
+            _unit.GetComponent<UnitAnimator>().TriggerMove();
+        }
 
         public override void Execute()
         {
