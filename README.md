@@ -137,10 +137,11 @@ The beauty of the system is that these components work together to create emerge
 ## Future Improvements
 
 The modularity of the system makes it easy to add new features:
+- **Improved animation logic**: Using triggers is not ideal and can become pain for future use
 - **Formation AI**: Units could be able to reposition for tactical reasons
 - **Advanced Pathfinding**: Integration with Unity's NavMesh system for more complex battlefields
 - **Environmental Factors**: Terrain effects and cover systems could add new variables to the utility calculations
-- **Player Unit AI**: The same system could control player units for optional automation
+
 
 ## Conclusion
 
@@ -148,6 +149,15 @@ This project shows how traditional AI designs like FSMs can be enhanced with mod
 
 The combination of clean code design, sophisticated decision-making, and smooth animation integration yields an AI system that's intelligent and responsive yet maintainable and extendable. This architecture illustrates how game AI can be advanced from reactive tendencies to create truly strategic adversaries.
 
----
+## Literature
 
-*This project shows the evolution of AI in games from humble state machines to sophisticated utility-based decision makers that yield compelling tactical game plays.*
+[Link text](https://www.gdcvault.com/play/1012410/Improving-AI-Decision-Modeling-Through)
+[Link text](https://gameprogrammingpatterns.com/state.html)
+[Link text](https://www.awork.com/glossary/utility-value-analysis)
+
+
+
+## Resources
+
+[Link text](https://assetstore.unity.com/packages/3d/characters/robots/robot-soldier-142438)
+[Link text](https://assetstore.unity.com/packages/3d/animations/melee-axe-pack-35320)
