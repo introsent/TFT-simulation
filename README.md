@@ -149,13 +149,13 @@ This project shows how traditional AI designs like FSMs can be enhanced with mod
 
 ## Literature
 
-[Improving AI Decision Modeling Through Utility Theory](https://www.gdcvault.com/play/1012410/Improving-AI-Decision-Modeling-Through)
-[State pattern](https://gameprogrammingpatterns.com/state.html)
-[Utility value analysis](https://www.awork.com/glossary/utility-value-analysis)
+1. [Improving AI Decision Modeling Through Utility Theory](https://www.gdcvault.com/play/1012410/Improving-AI-Decision-Modeling-Through)
+2. [State pattern](https://gameprogrammingpatterns.com/state.html)
+3. [Utility value analysis](https://www.awork.com/glossary/utility-value-analysis)
 
 
 
 ## Resources
 
-[Model](https://assetstore.unity.com/packages/3d/characters/robots/robot-soldier-142438)
-[Animations](https://assetstore.unity.com/packages/3d/animations/melee-axe-pack-35320)
+1. [Model](https://assetstore.unity.com/packages/3d/characters/robots/robot-soldier-142438)
+2. [Animations](https://assetstore.unity.com/packages/3d/animations/melee-axe-pack-35320)
