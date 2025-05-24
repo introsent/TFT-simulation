@@ -167,7 +167,20 @@ namespace FSM
 
     private void MoveTowardsTarget()
     {
+        Vector3 direction = (_target.position - _unit.transform.position).normalized;
 
+        // Rotate towards the target
+        if (direction != Vector3.zero)
+        {
+            Quaternion lookRotation = Quaternion.LookRotation(direction);
+            _unit.transform.rotation = Quaternion.Slerp(
+                _unit.transform.rotation,
+                lookRotation,
+                _unit.RotationSpeed * Time.deltaTime
+            );
+        }
+
+        // Move towards the target
         _unit.transform.position = Vector3.MoveTowards(
             _unit.transform.position,
             _target.position,

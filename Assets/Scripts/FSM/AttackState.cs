@@ -31,20 +31,33 @@ namespace FSM
                 return;
             }
 
-            // Add distance check
+            // Face the target
+            Vector3 direction = (_target.position - _unit.transform.position).normalized;
+            if (direction != Vector3.zero)
+            {
+                Quaternion lookRotation = Quaternion.LookRotation(direction);
+                _unit.transform.rotation = Quaternion.Slerp(
+                    _unit.transform.rotation,
+                    lookRotation,
+                    _unit.RotationSpeed * Time.deltaTime
+                );
+            }
+
+            // Distance check
             if (Vector3.Distance(_unit.transform.position, _target.position) > _unit.Range)
             {
                 _unit.FSM.TransitionToState(new SeekState(_unit));
                 return;
             }
 
-            // Existing attack logic
+            // Attack logic
             if (Time.time - _lastAttackTime >= _attackCooldown)
             {
                 _target.GetComponent<Unit>().TakeDamage(_unit.Damage);
                 _lastAttackTime = Time.time;
             }
         }
+
 
         public override UnitState CheckTransitions()
         {
