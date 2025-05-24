@@ -66,7 +66,7 @@ public class SpawnManager : MonoBehaviour
 
     private void SpawnUnit(Vector3 position)
     {
-        Instantiate(LastClickedUnit, position, Quaternion.identity);
+        Instantiate(LastClickedUnit, position  + new Vector3(0, 0.5f, 0), Quaternion.identity);
     }
     
     public void SpawnAIUnits(List<GameManager.UnitPosition> unitPositions)
@@ -84,7 +84,8 @@ public class SpawnManager : MonoBehaviour
                 if (!tile.IsOccupied)
                 {
                     GameObject unitPrefab = _prefabMap[unitPos.type];
-                    GameObject unit = Instantiate(unitPrefab, tile.transform.position, Quaternion.Euler(0, 180, 0));
+                    Vector3 spawnPosition = tile.transform.position + new Vector3(0, 0.5f, 0);
+                    GameObject unit = Instantiate(unitPrefab, spawnPosition, Quaternion.Euler(0, 180, 0));
                     unit.tag = "Enemy";
                     tile.IsOccupied = true;
                 }
