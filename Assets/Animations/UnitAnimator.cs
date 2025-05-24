@@ -8,12 +8,19 @@ public class UnitAnimator : MonoBehaviour
     
     public virtual void TriggerAttack() => 
         _animator.SetTrigger("Attack");
-    
-    public virtual void TriggerMove() => 
-        _animator.SetTrigger("Move");
 
-    public virtual void TriggerBackToIdle() => 
+    public virtual void TriggerMove()
+    {
+        _animator.SetTrigger("Move");
+    }
+
+
+    public virtual void TriggerBackToIdle()
+    {
+        ResetAttackTriggers();
         _animator.SetTrigger("BackToIdle");
+    }
+       
     
     public virtual void TriggerBackToWalking() => 
         _animator.SetTrigger("BackToWalking");
@@ -23,4 +30,9 @@ public class UnitAnimator : MonoBehaviour
 
     public virtual void SetIdleState() =>
         _animator.Play("Idle");
+    
+    public void ResetAttackTriggers()
+    {
+        _animator.ResetTrigger("Attack");
+    }
 }

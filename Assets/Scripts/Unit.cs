@@ -27,6 +27,7 @@ public class Unit : MonoBehaviour
     public int AttackPriority; // 0: Nearest, 1: Melee, 2: Tank
     public float RotationSpeed = 5f;
     public float AttackCooldown;
+    public float nextAttackTime = 0f;
     
     private UnitFSM _fsm;
     public UnitFSM FSM => _fsm;

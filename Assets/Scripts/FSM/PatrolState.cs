@@ -1,103 +1,101 @@
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace FSM
 {
     public class PatrolState : UnitState
     {
-        private Vector3 _centerPosition;
-        private bool _reachedCenter = false;
-        private GameObject _targetEnemy;
+        private Vector3 _center;
+        private float   _centerRadius;
+        private Vector3 _origin;
+        private Vector3 _patrolPoint;
+        private Vector3 _fieldForward;
 
-        public PatrolState(Unit unit) : base(unit) 
+        private float _maxAngleDeg = 30f;
+        private float _minDist     = 2f;
+        private float _maxDist     = 5f;
+        private float _reachThresh = 0.2f;
+
+        public PatrolState(Unit unit) : base(unit)
         {
-            _centerPosition = new Vector3(5, 0, 6); // Adjust to match your map center
+            // Define map center and radius
+            _center       = new Vector3(5, 0, 6);
+            _centerRadius = 1.0f;
+
+            // Forward direction per side
+            _fieldForward = (unit.Side == Faction.Player) ? Vector3.back: Vector3.forward;
         }
-        
+
+        public override void OnEnter()
+        {
+            _unit.GetComponent<UnitAnimator>().TriggerMove();
+            _patrolPoint    = Vector3.zero;
+            _origin         = Vector3.zero;
+        }
+
         public override void Execute()
         {
-            Vector3 targetPos;
-
-            if (!_reachedCenter)
+            if (_origin == Vector3.zero)
             {
-                targetPos = _centerPosition;
-                float distanceToCenter = Vector3.Distance(_unit.transform.position, _centerPosition);
-                if (distanceToCenter <= 0.1f)
+                // not yet reached center
+                MoveTowards(_center);
+                if (Vector3.Distance(_unit.transform.position, _center) <= _centerRadius)
                 {
-                    _reachedCenter = true;
+                    // reached center, lock origin and pick first patrol point
+                    _origin      = _unit.transform.position;
+                    PickNewPatrolPoint();
                 }
             }
             else
             {
-                if (_targetEnemy == null)
-                {
-                    _targetEnemy = FindClosestEnemy();
-                }
-
-                if (_targetEnemy != null)
-                {
-                    targetPos = _targetEnemy.transform.position;
-                }
-                else
-                {
-                    return; // No target to move toward
-                }
+                // patrol around origin within wedge
+                MoveTowards(_patrolPoint);
+                if (Vector3.Distance(_unit.transform.position, _patrolPoint) <= _reachThresh)
+                    PickNewPatrolPoint();
             }
-
-            // Move toward target position
-            Vector3 direction = (targetPos - _unit.transform.position).normalized;
-            _unit.transform.position += direction * _unit.Speed * Time.deltaTime;
         }
 
         public override UnitState CheckTransitions()
         {
-            if (EnemyInSight(out GameObject visibleEnemy))
-            {
-                return new SeekState(_unit, visibleEnemy.transform);
-            }
+            if (EnemyInSight(out GameObject enemy))
+                return new SeekState(_unit, enemy.transform);
             return null;
+        }
+
+        private void PickNewPatrolPoint()
+        {
+            float angleDeg = Random.Range(-_maxAngleDeg, _maxAngleDeg);
+            Vector3 dir    = Quaternion.AngleAxis(angleDeg, Vector3.up) * _fieldForward;
+            float d        = Random.Range(_minDist, _maxDist);
+            _patrolPoint   = _origin + dir.normalized * d;
+        }
+
+        private void MoveTowards(Vector3 dest)
+        {
+            Vector3 dir = (dest - _unit.transform.position).normalized;
+            _unit.transform.rotation = Quaternion.Slerp(
+                _unit.transform.rotation,
+                Quaternion.LookRotation(dir),
+                _unit.RotationSpeed * Time.deltaTime);
+            _unit.transform.position += dir * _unit.Speed * Time.deltaTime;
         }
 
         private bool EnemyInSight(out GameObject enemyFound)
         {
-            List<GameObject> enemies = new List<GameObject>();
-            Unit[] allUnits = Object.FindObjectsByType<Unit>(FindObjectsSortMode.None);
-            foreach (Unit unit in allUnits)
-            {
-                if (unit.Side != _unit.Side)
-                {
-                    enemies.Add(unit.gameObject);
-                }
-            }
-            foreach (var enemy in enemies)
-            {
-                if (Vector3.Distance(_unit.transform.position, enemy.transform.position) <= _unit.DetectionRange)
-                {
-                    enemyFound = enemy;
-                    return true;
-                }
-            }
+            float best = float.MaxValue;
             enemyFound = null;
-            return false;
-        }
-
-        private GameObject FindClosestEnemy()
-        {
-            GameObject[] enemies = GameObject.FindGameObjectsWithTag("Enemy");
-            GameObject closest = null;
-            float minDistance = float.MaxValue;
-
-            foreach (var enemy in enemies)
+            foreach (var u in Object.FindObjectsByType<Unit>(FindObjectsSortMode.None))
             {
-                float distance = Vector3.Distance(_unit.transform.position, enemy.transform.position);
-                if (distance < minDistance)
+                if (u.Side != _unit.Side)
                 {
-                    minDistance = distance;
-                    closest = enemy;
+                    float d = Vector3.Distance(_unit.transform.position, u.transform.position);
+                    if (d < _unit.DetectionRange && d < best)
+                    {
+                        best = d;
+                        enemyFound = u.gameObject;
+                    }
                 }
             }
-
-            return closest;
+            return enemyFound != null;
         }
     }
 }

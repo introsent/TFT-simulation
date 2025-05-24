@@ -33,22 +33,6 @@ namespace FSM
         if (_target != null)
         {
             MoveTowardsTarget();
-            
-            if (IsTargetInRange())
-            {
-                // MUST pass target to AttackState!
-                AttackState attackState = new AttackState(_unit);
-                attackState.SetTarget(_target);
-                _unit.FSM.TransitionToState(attackState);
-            }
-        }
-        else
-        {
-            if (Time.time - _lastPatrolTime > 1f)
-            {
-                _unit.FSM.TransitionToState(new PatrolState(_unit));
-                _lastPatrolTime = Time.time;
-            }
         }
     }
     
@@ -105,7 +89,27 @@ namespace FSM
 
     public override UnitState CheckTransitions()
     {
-        return null;
+        // if current target died or out of detect‐range → patrol
+        if (_target == null || 
+            _target.GetComponent<Unit>().Health <= 0 ||
+            Vector3.Distance(_unit.transform.position, _target.position) > _unit.DetectionRange)
+        {
+            return new PatrolState(_unit);
+        }
+    
+        // if target not set but there _are_ valid enemies → stay in Seek so Execute() will FindBestTarget()
+        if (_target == null && GetAllEnemies().Count > 0)
+            return this; 
+
+        // if we’ve got a valid target in attack-range → go Attack
+        if (_target != null && Vector3.Distance(_unit.transform.position, _target.position) <= _unit.Range)
+        {
+            var atk = new AttackState(_unit);
+            atk.SetTarget(_target);
+            return atk;
+        }
+
+        return null; // stay in Seek
     }
     
     private List<Unit> GetAllEnemies()
