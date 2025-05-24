@@ -17,4 +17,10 @@ public class UnitAnimator : MonoBehaviour
     
     public virtual void TriggerBackToWalking() => 
         _animator.SetTrigger("BackToWalking");
+
+    public virtual void TriggerAttackAgain() =>
+        _animator.SetTrigger("AttackAgain");
+
+    public virtual void SetIdleState() =>
+        _animator.Play("Idle");
 }

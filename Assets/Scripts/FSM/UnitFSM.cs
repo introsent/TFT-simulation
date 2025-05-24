@@ -16,10 +16,22 @@ namespace FSM
 
         public void Update()
         {
-            if (_currentState != null)
+            // First, check global transitions
+            var globalTransition = _currentState.CheckGlobalTransitions();
+            if (globalTransition != null)
             {
-                _currentState.Execute();
-                CheckStateTransition();
+                TransitionToState(globalTransition);
+                return;
+            }
+
+            // Then, execute logic
+            _currentState.Execute();
+
+            // Then, check state-specific transitions
+            var newState = _currentState.CheckTransitions();
+            if (newState != null)
+            {
+                TransitionToState(newState);
             }
         }
 

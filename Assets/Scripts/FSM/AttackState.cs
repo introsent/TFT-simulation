@@ -54,6 +54,7 @@ namespace FSM
             if (Time.time - _lastAttackTime >= _attackCooldown)
             {
                 _target.GetComponent<Unit>().TakeDamage(_unit.Damage);
+                _unit.GetComponent<UnitAnimator>().TriggerAttackAgain();
                 _lastAttackTime = Time.time;
             }
         }
