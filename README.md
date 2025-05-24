@@ -147,17 +147,15 @@ The modularity of the system makes it easy to add new features:
 
 This project shows how traditional AI designs like FSMs can be enhanced with modern techniques to create more interactive and richer gameplay. The weighted utility system proves that simple mathematical concepts can display elaborate, realistic behavior if implemented well.
 
-The combination of clean code design, sophisticated decision-making, and smooth animation integration yields an AI system that's intelligent and responsive yet maintainable and extendable. This architecture illustrates how game AI can be advanced from reactive tendencies to create truly strategic adversaries.
-
 ## Literature
 
-[Link text](https://www.gdcvault.com/play/1012410/Improving-AI-Decision-Modeling-Through)
-[Link text](https://gameprogrammingpatterns.com/state.html)
-[Link text](https://www.awork.com/glossary/utility-value-analysis)
+[Improving AI Decision Modeling Through Utility Theory](https://www.gdcvault.com/play/1012410/Improving-AI-Decision-Modeling-Through)
+[State pattern](https://gameprogrammingpatterns.com/state.html)
+[Utility value analysis](https://www.awork.com/glossary/utility-value-analysis)
 
 
 
 ## Resources
 
-[Link text](https://assetstore.unity.com/packages/3d/characters/robots/robot-soldier-142438)
-[Link text](https://assetstore.unity.com/packages/3d/animations/melee-axe-pack-35320)
+[Model](https://assetstore.unity.com/packages/3d/characters/robots/robot-soldier-142438)
+[Animations](https://assetstore.unity.com/packages/3d/animations/melee-axe-pack-35320)
