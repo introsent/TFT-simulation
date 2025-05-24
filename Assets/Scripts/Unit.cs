@@ -75,7 +75,6 @@ public class Unit : MonoBehaviour
             _healthBar.Hide();
             _fsm.TransitionToState(new DieState(this));
         }
-        
     }
 }
 

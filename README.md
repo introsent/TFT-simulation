@@ -6,7 +6,7 @@ A Unity tactical combat game utilizing an intelligent AI system built using Fini
 
 This tactical battle system drops units onto a grid battlefield where AI opposition makes smart movement, target choice, and combat engagement decisions. The innovation of the weighted utility system allows AI units to parse out several considerations when choosing targets, making more realistic and challenging combat simulations possible.
 
-*[Insert screenshot of the grid with units dropped in]*
+![Alt text](Images/grid.png)
 
 ## Key Features
 
@@ -25,10 +25,9 @@ The game supports multiple combat scenarios with:
 ### Animation Integration
 Smooth animation system in sync with AI states:
 - Hit-time accurate attack animations
-- Movement and idle state changes
 - Visually responsive feedback to AI decision-making
 
-*[Insert GIF of combat state transitions and animations]*
+![Alt text](Images/transitions.gif)
 
 ## AI Architecture Deep Dive
 
@@ -79,7 +78,7 @@ The AttackState coordinates the complex timing of animated combat, with:
 #### IdleState and DieState
 These states handle the beginning and end of unit lifecycles, with the IdleState as a safe default when there are no enemies in proximity, and the DieState handling proper unit removal.
 
-*[Insert state diagram showing FSM transitions]*
+![Alt text](Images/animation_controller.png)
 
 ### Weighted Behavior: The Science
 
@@ -109,7 +108,9 @@ The UnitAnimator system bridges the space between AI logic and graphical represe
 - **Accurate Timing**: Attack animations are synchronized with damage application for a silky-smooth combat feel
 - **Seamless Transitions**: Switching among different animation states is natural and responsive
 
-*[Insert screenshot of different unit types and their animations]*
+![Alt text](Images/melee.jpeg)
+![Alt text](Images/tank.jpeg)
+![Alt text](Images/sniper.jpeg)
 
 ## Sources and Inspiration
 
@@ -133,8 +134,6 @@ The beauty of the system is that these components work together to create emerge
 4. **Combat Engagement**: Units change to AttackState as they close to attack range with precisely timed animations
 5. **Tactical Flow**: Unit decisions aggregate to produce rich battlefield behavior without a single controller
 
-*[Insert screenshot of running full battle]*
-
 ## Future Improvements
 
 The modularity of the system makes it easy to add new features:
@@ -148,8 +147,6 @@ The modularity of the system makes it easy to add new features:
 This project shows how traditional AI designs like FSMs can be enhanced with modern techniques to create more interactive and richer gameplay. The weighted utility system proves that simple mathematical concepts can display elaborate, realistic behavior if implemented well.
 
 The combination of clean code design, sophisticated decision-making, and smooth animation integration yields an AI system that's intelligent and responsive yet maintainable and extendable. This architecture illustrates how game AI can be advanced from reactive tendencies to create truly strategic adversaries.
-
-*[Insert final screenshot of the complete game interface]*
 
 ---
 
