@@ -28,6 +28,12 @@ public class Unit : MonoBehaviour
     
     private UnitFSM _fsm;
     public UnitFSM FSM => _fsm;
+    
+    [Header("Utility System")]
+    public UtilityConfig utilityConfig;
+    public UnitType preferredTargetType;
+    
+    [HideInInspector] public float maxHealth;
     private void Start()
     {
         // Initialize unit attributes based on type
@@ -73,8 +79,11 @@ public class Unit : MonoBehaviour
                 AttackPriority = 2; // Sniper targets melee fighters
                 break;
         }
+        
+        maxHealth = Health;
     }
-
+    
+    public float HealthPercentage => Health / maxHealth;
     public void TakeDamage(int damage)
     {
         Health -= damage;

@@ -5,6 +5,7 @@ namespace FSM
 {
     public class SeekState : UnitState
 {
+    private float _lastPatrolTime;
     private Transform _target;
 
     public SeekState(Unit unit) : base(unit) { }
@@ -16,29 +17,103 @@ namespace FSM
 
     public override void Execute()
     {
-        if (_target == null)
+        // 1. Check target validity
+        if (_target == null || !TargetIsValid())
         {
-            FindTarget();
+            FindBestTarget();
         }
+
+        // 2. Act based on target availability
         if (_target != null)
         {
             MoveTowardsTarget();
+            
             if (IsTargetInRange())
             {
+                // MUST pass target to AttackState!
                 AttackState attackState = new AttackState(_unit);
                 attackState.SetTarget(_target);
-                _unit.TransitionToState(attackState);
+                _unit.FSM.TransitionToState(attackState);
             }
         }
         else
         {
-            _unit.FSM.TransitionToState(new PatrolState(_unit));
+            if (Time.time - _lastPatrolTime > 1f)
+            {
+                _unit.FSM.TransitionToState(new PatrolState(_unit));
+                _lastPatrolTime = Time.time;
+            }
         }
     }
+    
+    private bool TargetIsValid()
+    {
+        return _target != null && 
+               _target.GetComponent<Unit>().Health > 0 &&
+               Vector3.Distance(_unit.transform.position, _target.position) <= _unit.DetectionRange;
+    }
+    
+    private void FindBestTarget()
+    {
+        Unit bestTarget = null;
+        float highestScore = Mathf.NegativeInfinity;
+
+        foreach (Unit enemy in GetAllEnemies())
+        {
+            float score = CalculateUtility(enemy);
+            if (score > highestScore)
+            {
+                highestScore = score;
+                bestTarget = enemy;
+            }
+        }
+
+        _target = bestTarget?.transform;
+    }
+    
+    private float CalculateUtility(Unit enemy)
+    {
+        // Distance factor
+        float distance = Vector3.Distance(_unit.transform.position, enemy.transform.position);
+        float distanceScore = 1 / (distance + 0.1f);
+
+        // Health factor
+        float healthScore = 1 - enemy.HealthPercentage;
+
+        // Threat factor
+        float threatScore = enemy.Damage / (distance + 0.1f);
+
+        // Type factors
+        float typeScore = 0;
+        if (enemy.Type == _unit.preferredTargetType) 
+            typeScore += _unit.utilityConfig.preferredTypeBonus;
+        if (enemy.Type == _unit.Type) 
+            typeScore += _unit.utilityConfig.sameTypePenalty;
+
+        return (distanceScore * _unit.utilityConfig.distanceWeight) +
+               (healthScore * _unit.utilityConfig.healthWeight) +
+               (threatScore * _unit.utilityConfig.threatWeight) +
+               typeScore;
+    }
+
 
     public override UnitState CheckTransitions()
     {
         return null;
+    }
+    
+    private List<Unit> GetAllEnemies()
+    {
+        List<Unit> enemies = new List<Unit>();
+        Unit[] allUnits = Object.FindObjectsByType<Unit>(FindObjectsSortMode.None);
+        foreach (Unit unit in allUnits)
+        {
+            if (unit.Side != _unit.Side && unit.Health > 0)
+            {
+                enemies.Add(unit);
+            }
+        }
+        return enemies;
     }
 
     private void FindTarget()

@@ -21,12 +21,14 @@ namespace FSM
                 return;
             }
 
+            // Add distance check
             if (Vector3.Distance(_unit.transform.position, _target.position) > _unit.Range)
             {
                 _unit.FSM.TransitionToState(new SeekState(_unit));
                 return;
             }
 
+            // Existing attack logic
             if (Time.time - _lastAttackTime >= _attackCooldown)
             {
                 _target.GetComponent<Unit>().TakeDamage(_unit.Damage);

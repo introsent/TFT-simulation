@@ -970,6 +970,9 @@ MonoBehaviour:
   Range: 10
   DetectionRange: 10
   AttackPriority: 2
+  utilityConfig: {fileID: 11400000, guid: 4468e5d924590fe42b8571c5f08f5253, type: 2}
+  preferredTargetType: 1
+  maxHealth: 0
 --- !u!1 &1417747815958528
 GameObject:
   m_ObjectHideFlags: 0
